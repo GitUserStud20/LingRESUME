@@ -1,0 +1,46 @@
+/* Custom background color */
+body {
+    background-color: whitesmoke;
+    font-family: Arial, sans-serif; /* Default font family */
+    color: #333; /* Default font color */
+    margin: 0;
+    padding: 0 20px; /* Add padding to the left and right sides of the body */
+}
+
+/* Style for header */
+header {
+    background-color: rgb(57, 112, 57); /* Green background */
+    padding: 20px;
+    text-align: center;
+    font-size: 2em;
+    color: white; /* White font color */
+    font-family: 'Futura', serif; /* Font family for the header */
+}
+
+/* Style for footer */
+.footer {
+    clear: both;
+    background-color: rgb(57, 112, 57); /* Green */
+    text-align: center;
+    padding: 10px;
+    color: black; /* White font color */
+    font-family: 'Arial', serif; /* Font family for the footer */
+}
+
+/* Style for main content */
+.main-content {
+    padding: 20px;
+    font-size: 1.1em;
+    line-height: 1.6;
+    font-family: 'Arial', serif; /* Font family for the content */
+    color: #555; /* Slightly darker font color */
+}
+
+/* Style for sidebar */
+.sidebar {
+    width: 250px;
+    float: left;
+    background-color: green; /* Green */
+    padding: 20px;
+    color: #333; /* Font color for sidebar */
+}
