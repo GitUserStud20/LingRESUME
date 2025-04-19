@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Connections Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 120px);
+      grid-gap: 10px;
+      justify-content: center;
+      margin: 20px auto;
+      max-width: 520px;
+    }
+
+    .word-tile {
+      background: white;
+      border: 2px solid #999;
+      padding: 10px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .word-tile.selected {
+      background-color: #d0e8ff;
+      border-color: #0077cc;
+    }
+
+    #message {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    #solved-groups {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Connections Game</h1>
+  <div id="grid" class="grid"></div>
+  <button onclick="checkSelection()">Check Selection</button>
+  <p id="message"></p>
+  <div id="solved-groups"></div>
+
+  <script>
+    const words = [
+      "Mercury", "Venus", "Mars", "Earth",          // Planets
+      "Blue", "Red", "Green", "Yellow",             // Colors
+      "Violin", "Cello", "Flute", "Trumpet",        // Instruments
+      "Dog", "Cat", "Horse", "Elephant"             // Animals
+    ];
+
+    const groups = [
+      ["Mercury", "Venus", "Mars", "Earth"],
+      ["Blue", "Red", "Green", "Yellow"],
+      ["Violin", "Cello", "Flute", "Trumpet"],
+      ["Dog", "Cat", "Horse", "Elephant"]
+    ];
+
+    let remainingWords = [...words];
+    let currentSelection = [];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function createGrid() {
+      const grid = document.getElementById("grid");
+      grid.innerHTML = '';
+      shuffle(remainingWords);
+
+      remainingWords.forEach(word => {
+        const tile = document.createElement("div");
+        tile.className = "word-tile";
+        tile.textContent = word;
+        tile.onclick = () => toggleSelect(tile);
+        grid.appendChild(tile);
+      });
+    }
+
+    function toggleSelect(tile) {
+      tile.classList.toggle("selected");
+      const word = tile.textContent;
+      if (tile.classList.contains("selected")) {
+        currentSelection.push(word);
+      } else {
+        currentSelection = currentSelection.filter(w => w !== word);
+      }
+    }
+
+    function checkSelection() {
+      const message = document.getElementById("message");
+
+      if (currentSelection.length !== 4) {
+        message.textContent = "Select exactly 4 words.";
+        return;
+      }
+
+      let isCorrect = false;
+      for (let group of groups) {
+        if (group.every(word => currentSelection.includes(word))) {
+          isCorrect = true;
+          break;
+        }
+      }
+
+      if (isCorrect) {
+        message.textContent = "✅ Correct group!";
+        const solvedDiv = document.getElementById("solved-groups");
+        const newGroup = document.createElement("p");
+        newGroup.textContent = currentSelection.join(", ");
+        solvedDiv.appendChild(newGroup);
+
+        remainingWords = remainingWords.filter(w => !currentSelection.includes(w));
+        createGrid();
+      } else {
+        message.textContent = "❌ Try again!";
+      }
+
+      currentSelection = [];
+    }
+
+    createGrid();
+  </script>
+</body>
+</html>
